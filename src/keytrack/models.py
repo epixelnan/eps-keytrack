@@ -32,6 +32,18 @@ class Person(models.Model):
 	
 	host_type = models.CharField(max_length=32,
 	                             choices=host_types, default='other')
+
+	os_types = (
+		('mswin', 'Windows'),
+		('mac', 'Mac OS'),
+		('linux', 'Linux-based'),
+		('other', 'Other'),
+	)
+
+	host_os = models.CharField(max_length=32,
+	                             choices=os_types, default='other')
+	
+	has_vpn_access = models.BooleanField(default=False)
 	
 	projects = models.ManyToManyField(Project)
 	
