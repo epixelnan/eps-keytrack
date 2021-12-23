@@ -46,6 +46,12 @@ class Person(models.Model):
 	has_vpn_access = models.BooleanField(default=False)
 	
 	projects = models.ManyToManyField(Project)
-	
+
+	projects_with_live_server_access = models.ManyToManyField(
+		Project, related_name='live_server_accessor')
+
+	projects_with_db_access = models.ManyToManyField(
+		Project, related_name='db_accessor')
+
 	def __str__(self):
 		return self.epsid + '(' + self.name + ')'

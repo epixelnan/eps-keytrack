@@ -17,6 +17,12 @@ class PersonAdminForm(forms.ModelForm):
 		widgets = {
 			# is_stacked=False => lists placed horizontally
 			'projects': FilteredSelectMultiple('Projects', is_stacked=False),
+
+			'projects_with_live_server_access':
+				FilteredSelectMultiple('Projects', is_stacked=False),
+
+			'projects_with_db_access':
+				FilteredSelectMultiple('Projects', is_stacked=False),
 		}
 		fields  = '__all__'
 
