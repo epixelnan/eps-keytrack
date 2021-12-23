@@ -16,10 +16,10 @@ class Designation(models.Model):
 class Person(models.Model):
 	user  = models.OneToOneField(settings.AUTH_USER_MODEL, 
 	                             on_delete=models.CASCADE)
-	epsid = models.CharField(max_length=30,unique=True)
+	epsid = models.CharField(max_length=30, unique=True)
 	name  = models.CharField(max_length=256)
 	designation = models.ForeignKey(Designation, on_delete=models.PROTECT,
-	              blank=True,null=True)
+	              blank=True, null=True)
 	
 	host_ip   = models.CharField(max_length=128, null=True)
 	host_name = models.CharField(max_length=128, null=True)
