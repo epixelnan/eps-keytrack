@@ -1,5 +1,6 @@
 from django.db import models
 from django.conf import settings
+from django_better_admin_arrayfield.models.fields import ArrayField
 
 class Repository(models.Model):
 	url = models.CharField(max_length=4096)
@@ -91,6 +92,8 @@ class Person(models.Model):
 
 	repos_with_write_access = models.ManyToManyField(
 		Repository, related_name='repo_writer', blank=True)
+
+	jenkins_urls = ArrayField(models.CharField(max_length=4096), default=list)
 
 	notes = models.TextField(blank=True)
 

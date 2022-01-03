@@ -9,11 +9,14 @@ from django import forms
 
 from django.contrib.admin.widgets import FilteredSelectMultiple
 
+from django_better_admin_arrayfield.admin.mixins import DynamicArrayMixin
+from django_better_admin_arrayfield.forms.widgets import DynamicArrayWidget
+
 admin.site.register(Repository)
 admin.site.register(Project)
 admin.site.register(Designation)
 
-class PersonAdminForm(forms.ModelForm):
+class PersonAdminForm(forms.ModelForm, DynamicArrayMixin):
 	class Meta:
 		model   = Person
 		widgets = {
@@ -31,6 +34,9 @@ class PersonAdminForm(forms.ModelForm):
 
 			'repos_with_write_access':
 				FilteredSelectMultiple('Repositories', is_stacked=False),
+			
+			'jenkins_urls':
+				DynamicArrayWidget(),
 		}
 		fields  = '__all__'
 
