@@ -1,15 +1,17 @@
 from django.contrib import admin
 
+from .models import Repository
+from .models import Project
 from .models import Designation
 from .models import Person
-from .models import Project
 
 from django import forms
 
 from django.contrib.admin.widgets import FilteredSelectMultiple
 
-admin.site.register(Designation)
+admin.site.register(Repository)
 admin.site.register(Project)
+admin.site.register(Designation)
 
 class PersonAdminForm(forms.ModelForm):
 	class Meta:
@@ -23,6 +25,12 @@ class PersonAdminForm(forms.ModelForm):
 
 			'projects_with_db_access':
 				FilteredSelectMultiple('Projects', is_stacked=False),
+
+			'repos_with_read_access':
+				FilteredSelectMultiple('Repositories', is_stacked=False),
+
+			'repos_with_write_access':
+				FilteredSelectMultiple('Repositories', is_stacked=False),
 		}
 		fields  = '__all__'
 
