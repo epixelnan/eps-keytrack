@@ -5,6 +5,7 @@ from .models import Repository
 from .models import Project
 from .models import Designation
 from .models import Person
+from .models import SSHKey
 
 from django import forms
 
@@ -17,6 +18,7 @@ admin.site.register(Host)
 admin.site.register(Repository)
 admin.site.register(Project)
 admin.site.register(Designation)
+admin.site.register(SSHKey)
 
 class PersonAdminForm(forms.ModelForm, DynamicArrayMixin):
 	class Meta:
