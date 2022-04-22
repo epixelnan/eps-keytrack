@@ -106,7 +106,7 @@ class Person(models.Model):
 
 class SSHKey(models.Model):
 	pubkey = models.CharField(max_length=4096)
-	owner  = models.ForeignKey(Host, on_delete=models.PROTECT,
+	owner  = models.ForeignKey(Person, on_delete=models.PROTECT,
 	              blank=False, null=False)
 
 	def __str__(self):
