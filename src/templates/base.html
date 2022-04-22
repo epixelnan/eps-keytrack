@@ -1,0 +1,187 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="generator" content=
+"HTML Tidy for HTML5 for Linux version 5.6.0">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+
+<style>
+/* BEGIN globals */
+html, body {
+  padding: 0;
+  margin: 0;
+}
+
+html, body, input {
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
+    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  font-size: 16px;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+* {
+  box-sizing: border-box;
+}
+/* END globals */
+
+/* BEGIN dashboard */
+.container {
+  min-height: 100vh;
+  padding: 0 0.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.vmiddle {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.main {
+  flex-grow: 1;
+  padding: 1rem;
+  color: #333;
+}
+
+.aside {
+	background: #f2f1f1;
+  padding: 1rem;
+  min-width: 12rem;
+  text-align: right;
+  color: #444;
+}
+
+.aside hr {
+	border: none;
+	border-top: 1px solid #ccc;
+}
+
+.footer, .header {
+  width: 100%;
+  display: flex;
+  min-height: 64px;
+}
+
+.header {
+	display: flex;
+	gap: 8px;
+  border-bottom: 1px solid #eee;
+  padding-top: 0.4rem;
+  padding-bottom: 0.4rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+.header button {
+	border: none;
+	background: none;
+	text-decoration: underline;
+}
+
+.header button:hover {
+	cursor: pointer;
+}
+
+.footer {
+  border-top: 1px solid #eee;
+  justify-content: center;
+  align-items: center;
+  padding-top: 0.8rem;
+  padding-bottom: 0.8rem;
+}
+
+.footer img {
+	max-height: 32px;
+}
+
+.ulMenuVertical {
+	list-style-type: none;
+}
+
+.ulMenuVertical li {
+	padding: 0.4em;
+}
+
+.boxlink {
+	display: inline-block;
+	padding: 1rem;
+	background: #eef;
+	border: 1px solid gray;
+	border-radius: 0.4rem;
+	margin-bottom: 1rem;
+	cursor: pointer;
+}
+
+.boxlinkTitle {
+	margin: 0;
+	font-weight: normal;
+}
+/* END dashboard */
+</style>
+
+{% block morestyle %}
+{% endblock %}
+
+<meta name="viewport" content="width=device-width">
+<title>Epixel Keytrack</title>
+<link rel="icon" href="a_files/favicon.png">
+</head>
+<body>
+<div id="__next" data-reactroot="">
+<div class="container">
+<header class="header">
+<div style="flex-grow:1" class="vmiddle">Epixel Keytrack</div>
+<div class="vmiddle">
+<div style="display:flex;gap:8px">
+<div style="flex-grow:1;text-align:right" class=
+"vmiddle">
+	{% if request.user.is_authenticated %}
+		<span>Signed in.</span>
+	{% else %}
+		<a href="/login/">Sign In</a>
+	{% endif %}
+</div>
+<div class="vmiddle"><img src= "{% static 'pics/avatar.png' %}" alt="Avatar"></div>
+</div>
+</div>
+</header>
+<div style="display:flex;flex-grow:1;width:100%">
+<main class="main">
+	{% block main %}
+	{% endblock %}
+</main>
+<!--aside class="aside">
+<ul class="ulMenuVertical">
+<li><a href="#">Dashboard</a></li>
+<li>
+<hr></li>
+<li><a href="#">Explore</a></li>
+<li><a href="#">Tasks</a></li>
+<li><a href="#">Contacts</a></li>
+<li>
+<hr></li>
+<li><a href="#">My Account</a></li>
+<li><a href="#">History</a></li>
+</ul>
+</aside-->
+</div>
+<footer class="footer"><a href=
+"https://www.epixelsolutions.com/" target="_blank" rel=
+"noopener noreferrer"><img src="{% static 'pics/epixel-logo.png' %}" alt=
+"Epixel Logo"></a></footer>
+</div>
+</div>
+</body>
+</html>
