@@ -1,5 +1,6 @@
 from django.contrib import admin
 
+from .models import Host
 from .models import Repository
 from .models import Project
 from .models import Designation
@@ -12,6 +13,7 @@ from django.contrib.admin.widgets import FilteredSelectMultiple
 from django_better_admin_arrayfield.admin.mixins import DynamicArrayMixin
 from django_better_admin_arrayfield.forms.widgets import DynamicArrayWidget
 
+admin.site.register(Host)
 admin.site.register(Repository)
 admin.site.register(Project)
 admin.site.register(Designation)
