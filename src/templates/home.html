@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block main %}
+	{% if not request.user.is_authenticated %}
+		<p>Please sign in.</p>
+	{% elif request.user.is_staff %}
+		{% include "include/admin/dashboard-main.html" %}
+	{% else %}
+		<p>The dashboard for non-admin users is still under development. Please come back after some time.</p>
+	{% endif %}
+{% endblock %}

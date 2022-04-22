@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block morestyle %}
+<style>
+.main {
+  flex-grow: 1;
+  padding: 1rem;
+  color: #333;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding-bottom: 8rem;
+}
+
+.fieldLabel {
+	display: block;
+}
+
+#loginForm div {
+	padding: 0.4rem;
+}
+
+#loginForm input:not([type="checkbox"]) {
+	display: block;
+	width: 100%;
+}
+
+#loginForm button {
+	display: block;
+	width: 100%;
+	padding: 0.2em;
+}
+
+.loginError {
+	background: #fee;
+	padding: 0.4rem;
+	border: 1px solid #fcc;
+	margin: 0.4rem;
+}
+</style>
+{% endblock %}
+
+{% block main %}
+<h1>Sign In</h1>
+<form action="/login/" method="POST"><div id="loginForm">{% csrf_token %}{{form.as_p}}<button>Sign In</button></div></form>
+{% endblock %}
