@@ -2,12 +2,14 @@ version: "3.3"
    
 services:
   db:
+    container_name: keytrack-db-con
     image: postgres
     volumes:
       - ./data/db:/var/lib/postgresql/data
     env_file:
       - ./env/db.env
   web:
+    container_name: keytrack-web-con
     build: .
     command: bash -c "python manage.py migrate --noinput && python manage.py runserver 0.0.0.0:8000"
     volumes:
