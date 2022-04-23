@@ -21,11 +21,11 @@
 			<p>You don't own any SSH keys according to Epixel Keytrack</p>
 		{% else %}
 			<p>You own the following SSH keys:</p>
-			<ul>
+			<ol>
 			{% for key in sshkeys %}
 				<li>{% if key.is_active %}[Active]{% else %}[Inactive]{% endif %} {{key.pubkey}}</li>
 			{% endfor %}
-			</ul>
+			</ol>
 		{% endif %}
 	{% endif %}
 {% endblock %}
