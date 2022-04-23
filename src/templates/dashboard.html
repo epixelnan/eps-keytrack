@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block main %}
+	<h1>Dashboard</h1>
+
+	<p>Welcome, {{person.name}}!</p>
+
+	{% if not request.user.is_authenticated %}
+		<p>Please sign in.</p>
+	{% elif request.user.is_staff %}
+		{% include "include/admin/dashboard-main.html" %}
+	{% else %}
+		<p>Check out the resources owned or accessed by you.
+		Make sure to let the support team know if you spot
+		anything missing or incorrect.</p>
+	{% endif %}
+	
+	{% if request.user.is_authenticated %}
+		<h2>SSH Keys</h2>
+		{% if sshkeys|length <= 0 %}
+			<p>You don't own any SSH keys according to Epixel Keytrack</p>
+		{% else %}
+			<p>You own the following SSH keys:</p>
+			<ul>
+			{% for key in sshkeys %}
+				<li>{% if key.is_active %}[Active]{% else %}[Inactive]{% endif %} {{key.pubkey}}</li>
+			{% endfor %}
+			</ul>
+		{% endif %}
+	{% endif %}
+{% endblock %}
