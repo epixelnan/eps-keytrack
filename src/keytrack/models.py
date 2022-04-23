@@ -75,6 +75,9 @@ class Person(models.Model):
 
 	designation = models.ForeignKey(Designation, on_delete=models.PROTECT,
 	              blank=True, null=True)
+
+	managers = models.ForeignKey('self', on_delete=models.PROTECT,
+	              blank=True, null=True)
 	
 	hosts = models.ForeignKey(Host, on_delete=models.PROTECT,
 	              blank=True, null=True)
