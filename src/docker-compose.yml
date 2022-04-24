@@ -8,6 +8,11 @@ services:
       - ./data/db:/var/lib/postgresql/data
     env_file:
       - ./env/db.env
+  sess:
+    container_name: keytrack-sess-con
+    image: redis
+    command: >
+      --requirepass ${REDIS_PASSWORD}
   web:
     container_name: keytrack-web-con
     build: .
@@ -17,7 +22,10 @@ services:
     ports:
       - "8000:8000"
     env_file:
+      - ./env/sess.env
       - ./env/web.env
+      # For REDIS_PASSWORD
+      - .env
     depends_on:
       - db
-
+      - sess
