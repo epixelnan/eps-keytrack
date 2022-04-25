@@ -129,6 +129,26 @@ a:hover {
 	font-weight: normal;
 }
 /* END dashboard */
+
+/* BEGIN formGrid */
+.formGrid {
+	display: grid;
+	grid-template-columns: 10em 20em;
+}
+
+.formGrid label {
+	grid-column: 1;
+}
+
+.formGrid input {
+	grid-column: 2;
+}
+
+.formGrid label, .formGrid input, .formGrid select {
+	padding: 0.4em;
+	margin-top: 0.4em;
+}
+/* END formGrid */
 </style>
 
 {% block morestyle %}
@@ -145,15 +165,14 @@ a:hover {
 <div style="flex-grow:1" class="vmiddle">Epixel Keytrack</div>
 <div class="vmiddle">
 <div style="display:flex;gap:8px">
-<div style="flex-grow:1;text-align:right" class=
-"vmiddle">
+<div style="flex-grow:1;text-align:right">
 	{% if request.user.is_authenticated %}
 		<span>Signed in.</span>
 	{% else %}
-		<a href="/login/">Sign In</a>
+		<a href="/register/">Register</a> <a href="/login/" style="margin-left: 1em">Sign In</a>
 	{% endif %}
 </div>
-<div class="vmiddle"><img src= "{% static 'pics/avatar.png' %}" alt="Avatar"></div>
+<div class="vmiddle"><span style="font-size: large">👤️</span></div>
 </div>
 </div>
 </header>

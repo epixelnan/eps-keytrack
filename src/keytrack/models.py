@@ -67,15 +67,20 @@ class Host(models.Model):
 class Person(models.Model):
 	user  = models.OneToOneField(settings.AUTH_USER_MODEL, 
 	                             on_delete=models.CASCADE)
+	
+	# Keep in sync with the same field from SelfRegisterRequest
 	epsid = models.CharField(max_length=30, unique=True)
 
 	# TODO rem since the User model has first and last names?
 	# TODO update __str__() then.
+	# Keep in sync with the same field from SelfRegisterRequest
 	name  = models.CharField(max_length=256)
 
+	# Keep in sync with the same field from SelfRegisterRequest
 	designation = models.ForeignKey(Designation, on_delete=models.PROTECT,
 	              blank=True, null=True)
 
+	# Keep in sync with the same field from SelfRegisterRequest
 	managers = models.ForeignKey('self', on_delete=models.PROTECT,
 	              blank=True, null=True)
 	
@@ -86,6 +91,7 @@ class Person(models.Model):
 	
 	iam_user = models.CharField(max_length=64, null=True, blank=True)
 	
+	# Keep in sync with the same field from SelfRegisterRequest
 	projects = models.ManyToManyField(Project, blank=True)
 
 	projects_with_live_server_access = models.ManyToManyField(
@@ -114,3 +120,23 @@ class SSHKey(models.Model):
 
 	def __str__(self):
 		return self.pubkey
+
+class SelfRegisterRequest(models.Model):
+	# Keep in sync with the same field from Person
+	epsid = models.CharField(max_length=30, unique=True)
+	
+	email = models.EmailField(blank=False, null=False)
+	
+	# Keep in sync with the same field from Person
+	name  = models.CharField(max_length=256)
+	
+	# Keep in sync with the same field from Person
+	designation = models.ForeignKey(Designation, on_delete=models.PROTECT,
+	              blank=True, null=True)
+
+	# Keep in sync with the same field from Person
+	managers = models.ForeignKey('self', on_delete=models.PROTECT,
+	              blank=True, null=True)
+
+	# Keep in sync with the same field from Person
+	projects = models.ManyToManyField(Project, blank=True)
