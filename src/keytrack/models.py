@@ -81,8 +81,7 @@ class Person(models.Model):
 	              blank=True, null=True)
 
 	# Keep in sync with the same field from SelfRegisterRequest
-	managers = models.ForeignKey('self', on_delete=models.PROTECT,
-	              blank=True, null=True)
+	managers = models.ManyToManyField('self', blank=True)
 	
 	hosts = models.ForeignKey(Host, on_delete=models.PROTECT,
 	              blank=True, null=True)
@@ -135,8 +134,7 @@ class SelfRegisterRequest(models.Model):
 	              blank=True, null=True)
 
 	# Keep in sync with the same field from Person
-	managers = models.ForeignKey('self', on_delete=models.PROTECT,
-	              blank=True, null=True)
+	managers = models.ManyToManyField(Person, blank=True)
 
 	# Keep in sync with the same field from Person
 	projects = models.ManyToManyField(Project, blank=True)
