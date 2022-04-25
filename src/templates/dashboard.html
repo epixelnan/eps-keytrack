@@ -17,8 +17,8 @@
 	
 	{% if request.user.is_authenticated %}
 		<h2>SSH Keys</h2>
-		{% if sshkeys|length <= 0 %}
-			<p>You don't own any SSH keys according to Epixel Keytrack</p>
+		{% if sshkeys|length == 0 %}
+			<p>You don't own any SSH keys according to Epixel Keytrack.</p>
 		{% else %}
 			<p>You own the following SSH keys:</p>
 			<ol>
