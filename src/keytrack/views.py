@@ -22,3 +22,6 @@ class DashboardView(View):
 class RegisterView(CreateView):
 	model = SelfRegisterRequest
 	fields = '__all__'
+	
+	def form_valid(self, form):
+		return render(self.request, 'register_success.html')
