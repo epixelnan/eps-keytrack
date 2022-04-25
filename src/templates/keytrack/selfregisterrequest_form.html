@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block main %}
+<h1>Registration Request</h1>
+<p>Please use Ctrl+Click to select multiple items from a list.</p>
+<form action="/register/" method="POST" id="registerForm">
+	{% csrf_token %}
+	<div class="formGrid">
+		{{form}}
+	</div>
+	<button>Submit</button>
+</form>
+{% endblock %}

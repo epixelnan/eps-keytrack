@@ -1,8 +1,9 @@
 from django.shortcuts import redirect
 from django.shortcuts import render
 from django.views import View
+from django.views.generic.edit import CreateView
 
-from .models import Person, SSHKey
+from .models import Person, SelfRegisterRequest, SSHKey
 
 class DashboardView(View):
 	def get(self, request, *args, **kwargs):
@@ -17,3 +18,10 @@ class DashboardView(View):
 		cntxt['sshkeys'] = SSHKey.objects.filter(owner=person.id)
 		
 		return render(request, 'dashboard.html', cntxt)
+
+class RegisterView(CreateView):
+	model = SelfRegisterRequest
+	fields = '__all__'
+	
+	def form_valid(self, form):
+		return render(self.request, 'register_success.html')
