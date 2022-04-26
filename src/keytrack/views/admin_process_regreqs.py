@@ -2,41 +2,18 @@ from django import forms
 from django.contrib.auth.models import User
 from django.conf import settings
 from django.core.mail import send_mail
-from django.http import HttpResponse
 from django.forms import ModelForm
 from django.shortcuts import redirect
 from django.shortcuts import render
 from django.views import View
-from django.views.generic.edit import CreateView, UpdateView
+from django.views.generic.edit import UpdateView
 from django.urls import reverse
 
-from .models import Person, SelfRegisterRequest, SSHKey
+from keytrack.models import Person, SelfRegisterRequest, SSHKey
 
 import logging
 
 logger = logging.getLogger(__name__)
-
-class DashboardView(View):
-	def get(self, request, *args, **kwargs):
-		if not request.user.is_authenticated:
-			return redirect('login/')
-
-		try:
-			person = Person.objects.get(user=request.user.id)
-		except Exception as e:
-			logger.error('could not get Person object for user=' +
-				str(request.user.id) + ': ' + e.message)
-			return render(request, 'dashboard_500.html', status=500)
-		
-		cntxt = {}
-
-		cntxt['person']  = person
-		cntxt['sshkeys'] = SSHKey.objects.filter(owner=person.id)
-		
-		if request.user.is_staff:
-			cntxt['regReqCount'] = SelfRegisterRequest.objects.count()
-
-		return render(request, 'dashboard.html', cntxt)
 
 def email_notif(to, subject, body):
 	if not settings.EPS_EMAIL_ENABLED:
@@ -61,26 +38,6 @@ def email_notif(to, subject, body):
 		return False
 	
 	return True
-
-class RegisterView(CreateView):
-	model = SelfRegisterRequest
-	fields = '__all__'
-	template_name = 'user/register_form.html'
-	
-	def form_valid(self, form):
-		form.save()
-		
-		subject = 'Registration Request Submitted'
-		body = 'Your request to open an account on Epixel Keytrack '\
-		'has been submitted. The support team will get back soon. '\
-		'Make sure to let us know if this was not submitted by you.'\
-		'\r\n\r\nThank you.'
-		
-		email_notif(form.cleaned_data['email'], subject, body)
-
-		# TODO let the user know if error occured
-
-		return render(self.request, 'user/register_success.html')
 
 class ProcessRegisterForm(ModelForm):
 	CHOICES_REGPROCTYPE = [
