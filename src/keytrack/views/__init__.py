@@ -2,23 +2,30 @@ from django.contrib.auth.models import User
 from django.shortcuts import redirect
 from django.shortcuts import render
 from django.views import View
+from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView
 
 from keytrack.models import Person, SelfRegisterRequest, SSHKey
 
 from .admin_process_regreqs import *
 
+def get_person_for_user(user):
+	try:
+		return Person.objects.get(user=user.id)
+	except Exception as e:
+		logger.error('could not get Person object for user=' +
+			str(user.id) + ': ' + e.message)
+
+	return None
+
 class DashboardView(View):
 	def get(self, request, *args, **kwargs):
 		if not request.user.is_authenticated:
 			return redirect('login/')
 
-		try:
-			person = Person.objects.get(user=request.user.id)
-		except Exception as e:
-			logger.error('could not get Person object for user=' +
-				str(request.user.id) + ': ' + e.message)
-			return render(request, 'dashboard_500.html', status=500)
+			person = get_person_for_user(request.user)
+			if person == None:
+				return render(request, 'dashboard_500.html', status=500)
 		
 		cntxt = {}
 
@@ -29,6 +36,22 @@ class DashboardView(View):
 			cntxt['regReqCount'] = SelfRegisterRequest.objects.count()
 
 		return render(request, 'dashboard.html', cntxt)
+
+class ProfileView(DetailView):
+	model = Person
+	template_name = 'dashboard-profile.html'
+	
+	def get(self, request, *args, **kwargs):
+		person = get_person_for_user(request.user)
+		if person == None:
+			return render(request, 'dashboard_500.html', status=500)
+
+		self.object = person
+
+		# I referred the django source
+		cntxt = self.get_context_data(object=person)
+		cntxt['fields'] = self.model._meta.fields
+		return self.render_to_response(cntxt)
 
 class RegisterView(CreateView):
 	model = SelfRegisterRequest

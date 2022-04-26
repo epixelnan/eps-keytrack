@@ -18,7 +18,11 @@ from django.urls import path
 from django.views.generic import TemplateView
 from django.contrib.auth.views import LoginView
 
-from .views import DashboardView, RegisterView, ProcessRegisterView, RegisterRequestsView
+from .views import DashboardView
+from .views import ProfileView
+from .views import ProcessRegisterView
+from .views import RegisterView
+from .views import RegisterRequestsView
 
 urlpatterns = [
     path('admin/regreqs/<int:pk>/', ProcessRegisterView.as_view(),
@@ -31,4 +35,5 @@ urlpatterns = [
     path('login/', LoginView.as_view(template_name="login.html")),
     path('register/', RegisterView.as_view(), name='register'),
     path('', DashboardView.as_view(), name='dashboard'),
+    path('profile/', ProfileView.as_view(), name='profile'),
 ]
