@@ -18,10 +18,15 @@ from django.urls import path
 from django.views.generic import TemplateView
 from django.contrib.auth.views import LoginView
 
-from .views import DashboardView
-from .views import RegisterView
+from .views import DashboardView, RegisterView, ProcessRegisterView, RegisterRequestsView
 
 urlpatterns = [
+    path('admin/regreqs/<int:pk>/', ProcessRegisterView.as_view(),
+    	name='dashboard.admin.regreq'),
+
+    path('admin/regreqs/', RegisterRequestsView.as_view(),
+    	name='dashboard.admin.regreqs'),
+
     path('admin/', admin.site.urls),
     path('login/', LoginView.as_view(template_name="login.html")),
     path('register/', RegisterView.as_view(), name='register'),

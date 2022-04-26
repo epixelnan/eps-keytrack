@@ -1,3 +1,14 @@
+<h2>Requests</h2>
+{% if regReqCount == 0 %}
+	<p>There are no pending registration requests.</p>
+{% else %}
+	<p><span class="display: inline-block; border: 1px solid orange;">
+		{{regReqCount}}</span> registration request(s) are pending.
+		<a href="/admin/regreqs/">Click here</a> to process.</p>
+{% endif %}
+
+
+<h2>View & Manage</h2>
 <p>Here you can manage people, projects, etc.</p>
 <a class="boxlink" href="/admin/keytrack/person/">
 	<div>

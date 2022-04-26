@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block main %}
+<h1>Process Registration Request</h1>
+<p>You can make corrections in the user-submitted data.
+Please use Ctrl+Click to select multiple items from a list.</p>
+<form action="{% url 'dashboard.admin.regreqs' %}{{object.pk}}/" method="POST" id="registerForm">
+	{% csrf_token %}
+	<div class="formGrid">
+		{{form}}
+	</div>
+
+	<p>
+		<input type="submit" value="Submit" />
+	</p>
+</form>
+{% endblock %}

@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block morestyle %}
+<style>
+.classictab {
+	border-collapse: collapse;
+}
+
+.classictab td, .classictab th {
+	border: 1px solid #ccc;
+	padding: 0.4em;
+}
+
+.classictab tr:nth-child(odd) {
+	background: #eef;
+}
+</style>
+{% endblock %}
+
+{% block main %}
+	<h1>Registration Requests</h1>
+
+	{% if regreqs|length == 0 %}
+		<p>There are no registration requests pending.</p>
+	{% else %}
+		<table class="classictab">
+			<tr><th>No.</th><th>EPS ID</th><th>Name</th><th>Email</th><th>Action</th></tr>
+			{% for req in regreqs %}
+				<tr><td>{{forloop.counter}}</td>
+				<td>{{req.epsid}}</td>
+				<td>{{req.name}}</td>
+				<td>{{req.email}}</td>
+				<td><a href="{% url 'dashboard.admin.regreqs' %}{{req.pk}}/">View</a></td></tr>
+			{% endfor %}
+		</table>
+	{% endif %}
+{% endblock %}
