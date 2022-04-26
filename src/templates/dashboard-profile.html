@@ -49,9 +49,9 @@
 			{% for item in lst.items %}
 				<li>{{ item }}</li>
 			{% endfor %}
+			</ol>
 		{% else %}
 			<p>You don't have any {{lst.item_name_plural}}.</p>
 		{% endif %}
-		</ol>
 	{% endfor %}
 {% endblock %}
