@@ -7,6 +7,7 @@ from django.views.generic.edit import CreateView
 
 from keytrack.models import Person, SelfRegisterRequest, SSHKey
 
+from .admin import *
 from .admin_process_regreqs import *
 
 def get_person_for_user(user):

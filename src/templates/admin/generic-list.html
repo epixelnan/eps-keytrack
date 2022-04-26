@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block morestyle %}
+<style>
+.objectList li {
+	padding-top: 0.2em;
+	padding-bottom: 0.2em;
+}
+</style>
+{% endblock %}
+
+{% block main %}
+	<h1>{{heading}}</h1>
+
+	{% if object_list %}
+		<ol class="objectList">
+		{% for obj in object_list %}
+			<li>{{ obj.name }}</li>
+		{% endfor %}
+		</ol>
+	{% else %}
+		<p>No {{obj_type_name}} to list.</p>
+	{% endif %}
+{% endblock %}
