@@ -29,6 +29,11 @@ class DashboardView(View):
 		return render(request, 'dashboard.html', cntxt)
 
 def email_notif(to, subject, body):
+	if not settings.EPS_EMAIL_ENABLED:
+		# TODO proper logging
+		print('info: not sending email because disabled by EPS_EMAIL_ENABLED: ' + to)
+		return False
+
 	if not to.split('@')[1] in settings.EPS_EMAIL_OK_DOMAINS:
 		# TODO proper logging
 		print('info: not sending email to disallowed domain: ' + to)
