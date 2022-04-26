@@ -20,6 +20,7 @@ from django.contrib.auth.views import LoginView
 
 from .views import DashboardView
 from .views import PeopleView
+from .views import ProjectsView
 from .views import ProfileView
 from .views import ProcessRegisterView
 from .views import RegisterView
@@ -34,6 +35,9 @@ urlpatterns = [
 
     path('admin/people/', PeopleView.as_view(),
     	name='dashboard.admin.people'),
+
+    path('admin/projects/', ProjectsView.as_view(),
+    	name='dashboard.admin.projects'),
 
     path('admin/', admin.site.urls),
     path('login/', LoginView.as_view(template_name="login.html")),
