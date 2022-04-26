@@ -2,6 +2,7 @@ from django import forms
 from django.contrib.auth.models import User
 from django.conf import settings
 from django.core.mail import send_mail
+from django.http import HttpResponse
 from django.forms import ModelForm
 from django.shortcuts import redirect
 from django.shortcuts import render
@@ -16,7 +17,14 @@ class DashboardView(View):
 		if not request.user.is_authenticated:
 			return redirect('login/')
 
-		person = Person.objects.get(user=request.user.id)
+		try:
+			person = Person.objects.get(user=request.user.id)
+		except Exception as e:		
+			print(e) # TODO proper logging
+			# TODO proper logging
+			print('error: could not get Person object for user=' +
+				str(request.user.id))
+			return render(request, 'dashboard_500.html', status=500)
 		
 		cntxt = {}
 
