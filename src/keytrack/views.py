@@ -89,8 +89,6 @@ class ProcessRegisterView(UpdateView):
 	template_name = 'admin/process-regreq_form.html'
 
 	def form_valid(self, form):
-		print(form.cleaned_data) # TODO REM
-		print(form.cleaned_data['submit_type'])
 		subtype = form.cleaned_data['submit_type'] if 'submit_type' in form.cleaned_data else 'update'
 		
 		if subtype == 'register':
@@ -104,7 +102,8 @@ class ProcessRegisterView(UpdateView):
 					login,
 					form.cleaned_data['email'],
 					passwd)
-			except:		
+			except Exception as e:		
+				print(e) # TODO proper logging
 				has_error = True
 		
 			if has_error:
@@ -123,25 +122,30 @@ class ProcessRegisterView(UpdateView):
 			if not has_error:
 				try:
 					person = Person.objects.create(user=user,
+						epsid=form.cleaned_data['epsid'],
 						name=form.cleaned_data['name'],
 						designation=form.cleaned_data['designation'])
 
 					person.managers.set(form.cleaned_data['managers'])
-					person.managers.projects.set(form.cleaned_data['projects'])
+					person.projects.set(form.cleaned_data['projects'])
 
-					self.get_object().delete()
-				
-				except:
-					form.save() # save updates if any
+				except Exception as e:
+					print(e) # TODO proper logging
+					has_error = True
 
 					form.add_error(None, 'created the user account, '
-					'but creation of Person object failed; you will have to do it '
-					'manually.')
+					'but creation of Person object failed (may be duplicate epsid?); '
+					'you will have to do it manually.')
 
 			if has_error:
+				if form.is_valid():
+					form.save() # save updates if any
+				
 				cntxt = super().get_context_data()
 				cntxt['form'] = form
 				return render(self.request, self.template_name, cntxt)
+			else:
+				self.get_object().delete()
 		
 			return redirect('dashboard.admin.regreqs')
 
@@ -159,6 +163,7 @@ class ProcessRegisterView(UpdateView):
 			return redirect('dashboard.admin.regreqs')
 
 		else: # update
+			form.save()
 			return redirect(reverse('dashboard.admin.regreq',
 				args=[self.get_object().pk]))
 
