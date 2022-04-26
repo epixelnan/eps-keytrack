@@ -4,7 +4,8 @@
 	<h1>Dashboard</h1>
 
 	{% if request.user.is_authenticated %}
-		<p>Welcome, {{person.name}}!</p>
+		<p>Welcome, {{person.name}}!
+		<a href="{%url 'profile' %}">Click here</a> to view your profile.</p>
 	{% endif %}
 
 	{% if not request.user.is_authenticated %}
