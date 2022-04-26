@@ -18,10 +18,40 @@
 {% block main %}
 	<h1>My Profile</h1>
 
+	<p>Only the admin can update the details. Please contact the support team
+	if you notice any issues.</p>
+
+	<h2>Basic Info</h2>
+
 	<div class="profileGrid">
 	{% for field in fields %}
 		<div style="grid-column: 1">{{ field.verbose_name }}</div>
 		<div style="grid-column: 2">{% get_field_value object field.name %}</div>
 	{% endfor %}
 	</div>
+	
+	<h2>SSH Keys</h2>
+	{% if sshkeys|length == 0 %}
+		<p>You don't own any SSH keys according to Epixel Keytrack.</p>
+	{% else %}
+		<p>You own the following SSH keys:</p>
+		<ol>
+		{% for key in sshkeys %}
+			<li>{% if key.is_active %}[Active]{% else %}[Inactive]{% endif %} {{key.pubkey}}</li>
+		{% endfor %}
+		</ol>
+	{% endif %}
+	
+	{% for lst in lists %}
+		<h2>{{lst.heading}}</h2>
+		{% if lst.items %}
+			<ol>
+			{% for item in lst.items %}
+				<li>{{ item }}</li>
+			{% endfor %}
+		{% else %}
+			<p>You don't have any {{lst.item_name_plural}}.</p>
+		{% endif %}
+		</ol>
+	{% endfor %}
 {% endblock %}

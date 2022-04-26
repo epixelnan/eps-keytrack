@@ -17,18 +17,4 @@
 		Make sure to let the support team know if you spot
 		anything missing or incorrect.</p>
 	{% endif %}
-	
-	{% if request.user.is_authenticated %}
-		<h2>SSH Keys</h2>
-		{% if sshkeys|length == 0 %}
-			<p>You don't own any SSH keys according to Epixel Keytrack.</p>
-		{% else %}
-			<p>You own the following SSH keys:</p>
-			<ol>
-			{% for key in sshkeys %}
-				<li>{% if key.is_active %}[Active]{% else %}[Inactive]{% endif %} {{key.pubkey}}</li>
-			{% endfor %}
-			</ol>
-		{% endif %}
-	{% endif %}
 {% endblock %}

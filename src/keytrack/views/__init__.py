@@ -30,7 +30,6 @@ class DashboardView(View):
 			return render(request, 'dashboard_500.html', status=500)
 
 		cntxt['person']  = person
-		cntxt['sshkeys'] = SSHKey.objects.filter(owner=person.id)
 		
 		if request.user.is_staff:
 			cntxt['regReqCount'] = SelfRegisterRequest.objects.count()
@@ -51,6 +50,46 @@ class ProfileView(DetailView):
 		# I referred the django source
 		cntxt = self.get_context_data(object=person)
 		cntxt['fields'] = self.model._meta.fields
+		
+		# Many-to-many fields are not present in self.model._meta.fields
+		
+		lists = [
+			{
+				'heading':          'Managers',
+				'items':            person.managers.all(),
+				'item_name_plural': 'managers',
+			},
+			{
+				'heading':          'Projects',
+				'items':            person.projects.all(),
+				'item_name_plural': 'projects',
+			},
+			{
+				'heading':          'Projects with Live Server Access',
+				'items':            person.projects_with_live_server_access.all(),
+				'item_name_plural': 'projects with live server access',
+			},
+			{
+				'heading':          'Projects with Database Access',
+				'items':            person.projects_with_db_access.all(),
+				'item_name_plural': 'projects with database access',
+			},
+			{
+				'heading':          'Repos with Read Access',
+				'items':            person.repos_with_read_access.all(),
+				'item_name_plural': 'repos with read access',
+			},
+			{
+				'heading':          'Repos with Write Access',
+				'items':            person.repos_with_write_access.all(),
+				'item_name_plural': 'repos with write access',
+			},
+		]
+		
+		cntxt['lists'] = lists
+
+		cntxt['sshkeys'] = SSHKey.objects.filter(owner=person.id)
+
 		return self.render_to_response(cntxt)
 
 class RegisterView(CreateView):
