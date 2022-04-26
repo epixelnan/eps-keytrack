@@ -12,6 +12,10 @@ from django.urls import reverse
 
 from .models import Person, SelfRegisterRequest, SSHKey
 
+import logging
+
+logger = logging.getLogger(__name__)
+
 class DashboardView(View):
 	def get(self, request, *args, **kwargs):
 		if not request.user.is_authenticated:
@@ -19,11 +23,9 @@ class DashboardView(View):
 
 		try:
 			person = Person.objects.get(user=request.user.id)
-		except Exception as e:		
-			print(e) # TODO proper logging
-			# TODO proper logging
-			print('error: could not get Person object for user=' +
-				str(request.user.id))
+		except Exception as e:
+			logger.error('could not get Person object for user=' +
+				str(request.user.id) + ': ' + e.message)
 			return render(request, 'dashboard_500.html', status=500)
 		
 		cntxt = {}
@@ -38,13 +40,11 @@ class DashboardView(View):
 
 def email_notif(to, subject, body):
 	if not settings.EPS_EMAIL_ENABLED:
-		# TODO proper logging
-		print('info: not sending email because disabled by EPS_EMAIL_ENABLED: ' + to)
+		logger.warning('not sending email because disabled by EPS_EMAIL_ENABLED: ' + to)
 		return False
 
 	if not to.split('@')[1] in settings.EPS_EMAIL_OK_DOMAINS:
-		# TODO proper logging
-		print('info: not sending email to disallowed domain: ' + to)
+		logger.warning('not sending email to disallowed domain: ' + to)
 		
 		return False
 
@@ -56,9 +56,8 @@ def email_notif(to, subject, body):
 		fail_silently=True,
 	)
 
-	# TODO proper logging
 	if sentCount != 1:
-		print('error: could not send email to: ' + to)
+		logger.error('could not send email to: ' + to)
 		return False
 	
 	return True
@@ -116,7 +115,7 @@ class ProcessRegisterView(UpdateView):
 					form.cleaned_data['email'],
 					passwd)
 			except Exception as e:		
-				print(e) # TODO proper logging
+				logger.error(e)
 				has_error = True
 		
 			if has_error:
@@ -143,7 +142,7 @@ class ProcessRegisterView(UpdateView):
 					person.projects.set(form.cleaned_data['projects'])
 
 				except Exception as e:
-					print(e) # TODO proper logging
+					logger.error(e)
 					has_error = True
 
 					form.add_error(None, 'created the user account, '
