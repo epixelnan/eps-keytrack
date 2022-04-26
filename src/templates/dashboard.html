@@ -3,7 +3,9 @@
 {% block main %}
 	<h1>Dashboard</h1>
 
-	<p>Welcome, {{person.name}}!</p>
+	{% if request.user.is_authenticated %}
+		<p>Welcome, {{person.name}}!</p>
+	{% endif %}
 
 	{% if not request.user.is_authenticated %}
 		<p>Please sign in.</p>
