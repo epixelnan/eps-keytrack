@@ -20,14 +20,14 @@ def get_person_for_user(user):
 
 class DashboardView(View):
 	def get(self, request, *args, **kwargs):
+		cntxt = {}
+
 		if not request.user.is_authenticated:
 			return redirect('login/')
 
-			person = get_person_for_user(request.user)
-			if person == None:
-				return render(request, 'dashboard_500.html', status=500)
-		
-		cntxt = {}
+		person = get_person_for_user(request.user)
+		if person == None:
+			return render(request, 'dashboard_500.html', status=500)
 
 		cntxt['person']  = person
 		cntxt['sshkeys'] = SSHKey.objects.filter(owner=person.id)
