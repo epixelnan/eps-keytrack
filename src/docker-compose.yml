@@ -7,7 +7,8 @@ services:
     volumes:
       - ./data/db:/var/lib/postgresql/data
     env_file:
-      - ./env/db.env
+      # POSTGRES_PASSWORD
+      - ./env/db.secret.env
   sess:
     container_name: keytrack-sess-con
     image: redis
@@ -21,9 +22,15 @@ services:
       - .:/code
     ports:
       - "8000:8000"
+    environment:
+      - KEYTRACK_WEBSESSDB_HOST=keytrack-sess-con
+      - KEYTRACK_WEBSESSDB_PORT=6379
     env_file:
-      - ./env/sess.env
-      - ./env/web.env
+      # TODO SECURITY use settings.py since password in django env are unsafe?
+      # POSTGRES_PASSWORD
+      - ./env/db.secret.env
+      # POSTGRES_NAME and POSTGRES_USER
+      - ./env/db.env
       # For REDIS_PASSWORD
       - .env
     depends_on:
