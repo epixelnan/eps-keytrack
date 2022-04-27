@@ -31,6 +31,8 @@ services:
       - ./env/db.secret.env
       # POSTGRES_NAME and POSTGRES_USER
       - ./env/db.env
+      # EPS_DJ_SECRET_KEY
+      - ./env/dj.secret.env
       # For REDIS_PASSWORD
       - .env
     depends_on:
