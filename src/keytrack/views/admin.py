@@ -16,7 +16,7 @@ class PeopleView(AdminOnlyMixin, ListView):
 		
 		return cntxt
 
-class ProjectsView(ListView):
+class ProjectsView(AdminOnlyMixin, ListView):
 	model = Project
 	template_name = 'admin/generic-list.html'
 	
