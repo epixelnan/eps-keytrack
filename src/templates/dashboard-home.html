@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "dashboard.html" %}
 
 {% block main %}
 	<h1>Dashboard</h1>
@@ -16,22 +16,5 @@
 		<p>Check out the resources owned or accessed by you.
 		Make sure to let the support team know if you spot
 		anything missing or incorrect.</p>
-	{% endif %}
-{% endblock %}
-
-{% block aside %}
-	{% if request.user.is_staff %}
-		<aside class="aside">
-			<ul class="ulMenuVertical">
-				<li><a href="/">Dashboard</a></li>
-				<li><hr></li>
-				<li><a href="{% url 'dashboard.admin.regreqs' %}">Requests</a></li>
-				<li><hr></li>
-				<li><a href="{% url 'dashboard.admin.people' %}">People</a></li>
-				<li><a href="{% url 'dashboard.admin.projects' %}">Projects</a></li>
-				<li><hr></li>
-				<li><a href="/admin/">Django Admin</a></li>
-			</ul>
-		</aside>
 	{% endif %}
 {% endblock %}
