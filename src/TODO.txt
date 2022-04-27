@@ -1,5 +1,6 @@
-- Make sure emails are sent to *@epixelsolutions.com only.
+- FIXME gunicorn custom error pages
 - Person: make jenkin urls optional
+- Use for..empty in templates instead of if-for
 - SSHKey: is_active (an active person can have an inactive SSH key)
 - settings.py: move out the fields that are common to dev and prod
   (e.g.: LOGOUT_REDIRECT_URL) because settings.py is in gitignore
@@ -9,21 +10,9 @@
 - test for: display 500 if no Person exists for user
 
 - reg: creation time
- 
-- login-logout CSRF
-- static file serving
- - move /home/eps114-epixel/epsnan/keytrack/src/templates/* to
+
+- login CSRF
+- move /home/eps114-epixel/epsnan/keytrack/src/templates/* to
    /home/eps114-epixel/epsnan/keytrack/src/templates/keytrack/
-   
-   
-
-DashboardView: display 500 if no Person exists for user
-
-		try:
-			person = Person.objects.get(user=request.user.id)
-		except:
-			# TODO proper logging
-			print('error: could not get Person object for user=' +
-				request.user.id)
 			
 			
