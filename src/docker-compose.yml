@@ -33,7 +33,7 @@ services:
       - ./env/db.env
       # EPS_DJ_SECRET_KEY
       - ./env/dj.secret.env
-      # For REDIS_PASSWORD
+      # For REDIS_PASSWORD (.env because needed while running docker-compose)
       - .env
     depends_on:
       - db
