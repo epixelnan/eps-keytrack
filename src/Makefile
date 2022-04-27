@@ -6,9 +6,9 @@ env-files:
 	
 	if [ ! -f env/db.secret.env ]; then \
 		# Something wrong with long passwords? Or something else? \
-		# I get the following:
+		# I get the following: \
 		# django.db.utils.OperationalError: FATAL:\
-		#   password authentication failed for user "postgres"
+		#   password authentication failed for user "postgres" \
 		#echo "POSTGRES_PASSWORD=$(PASSGEN)" > env/db.secret.env; \
 		echo "POSTGRES_PASSWORD=$$(uuid)" > env/db.secret.env; \
 	fi
