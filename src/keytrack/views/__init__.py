@@ -2,22 +2,13 @@ from django.contrib.auth.models import User
 from django.shortcuts import redirect
 from django.shortcuts import render
 from django.views import View
-from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView
 
-from keytrack.models import Person, SelfRegisterRequest, SSHKey
+from keytrack.models import Person, SelfRegisterRequest
 
 from .admin import *
 from .admin_process_regreqs import *
-
-def get_person_for_user(user):
-	try:
-		return Person.objects.get(user=user.id)
-	except Exception as e:
-		logger.error('could not get Person object for user=' +
-			str(user.id) + ': ' + e.message)
-
-	return None
+from .anyprofileview import *
 
 class DashboardView(View):
 	def get(self, request, *args, **kwargs):
@@ -26,7 +17,7 @@ class DashboardView(View):
 		if not request.user.is_authenticated:
 			return redirect('login/')
 
-		person = get_person_for_user(request.user)
+		person = get_person_for_user_id(request.user.id)
 		if person == None:
 			return render(request, 'dashboard_500.html', status=500)
 
@@ -37,61 +28,10 @@ class DashboardView(View):
 
 		return render(request, 'dashboard.html', cntxt)
 
-class ProfileView(DetailView):
-	model = Person
-	template_name = 'dashboard-profile.html'
-	
+class OwnProfileView(AnyProfileViewBase):
 	def get(self, request, *args, **kwargs):
-		person = get_person_for_user(request.user)
-		if person == None:
-			return render(request, 'dashboard_500.html', status=500)
-
-		self.object = person
-
-		# I referred the django source
-		cntxt = self.get_context_data(object=person)
-		cntxt['fields'] = self.model._meta.fields
-		
-		# Many-to-many fields are not present in self.model._meta.fields
-		
-		lists = [
-			{
-				'heading':          'Managers',
-				'items':            person.managers.all(),
-				'item_name_plural': 'managers',
-			},
-			{
-				'heading':          'Projects',
-				'items':            person.projects.all(),
-				'item_name_plural': 'projects',
-			},
-			{
-				'heading':          'Projects with Live Server Access',
-				'items':            person.projects_with_live_server_access.all(),
-				'item_name_plural': 'projects with live server access',
-			},
-			{
-				'heading':          'Projects with Database Access',
-				'items':            person.projects_with_db_access.all(),
-				'item_name_plural': 'projects with database access',
-			},
-			{
-				'heading':          'Repos with Read Access',
-				'items':            person.repos_with_read_access.all(),
-				'item_name_plural': 'repos with read access',
-			},
-			{
-				'heading':          'Repos with Write Access',
-				'items':            person.repos_with_write_access.all(),
-				'item_name_plural': 'repos with write access',
-			},
-		]
-		
-		cntxt['lists'] = lists
-
-		cntxt['sshkeys'] = SSHKey.objects.filter(owner=person.id)
-
-		return self.render_to_response(cntxt)
+		self.uid = request.user.id
+		return super().get(request, *args, **kwargs)
 
 class RegisterView(CreateView):
 	model = SelfRegisterRequest

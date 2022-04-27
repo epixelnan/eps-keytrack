@@ -16,10 +16,18 @@
 {% load get_field_value %}
 
 {% block main %}
-	<h1>My Profile</h1>
+	{% if object.id == request.user.id %}
+		<h1>My Profile</h1>
+	{% else %}
+		<h1>Profile: {{object.name}}</h1>
+	{% endif %}
 
-	<p>Only the admin can update the details. Please contact the support team
-	if you notice any issues.</p>
+	{% if request.user.is_staff %}
+		<p><a href="/admin/keytrack/person/{{object.id}}/change">Edit</a></p>
+	{% else %}
+		<p>Only the admin can update the details. Please contact the support team
+		if you notice any issues.</p>
+	{% endif %}
 
 	<h2>Basic Info</h2>
 

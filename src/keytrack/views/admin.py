@@ -4,6 +4,7 @@ from keytrack.models import Person
 from keytrack.models import Project
 
 from .admin_mixins import AdminOnlyMixin
+from .anyprofileview import AnyProfileViewBase
 
 class PeopleView(AdminOnlyMixin, ListView):
 	model = Person
@@ -13,6 +14,7 @@ class PeopleView(AdminOnlyMixin, ListView):
 		cntxt = super().get_context_data(**kwargs)
 		cntxt['heading'] = 'People'
 		cntxt['class_plural'] = 'people'
+		cntxt['urlpattern'] = 'dashboard.admin.anyprofile'
 		
 		return cntxt
 
@@ -26,3 +28,8 @@ class ProjectsView(AdminOnlyMixin, ListView):
 		cntxt['class_plural'] = 'projects'
 		
 		return cntxt
+
+class AnyProfileView(AdminOnlyMixin, AnyProfileViewBase):
+	def get(self, request, *args, **kwargs):
+		self.uid = self.kwargs['pk']
+		return super().get(request, *args, **kwargs)

@@ -21,7 +21,8 @@ from django.contrib.auth.views import LoginView
 from .views import DashboardView
 from .views import PeopleView
 from .views import ProjectsView
-from .views import ProfileView
+from .views import AnyProfileView
+from .views import OwnProfileView
 from .views import ProcessRegisterView
 from .views import RegisterView
 from .views import RegisterRequestsView
@@ -33,6 +34,9 @@ urlpatterns = [
     path('admin/regreqs/', RegisterRequestsView.as_view(),
     	name='dashboard.admin.regreqs'),
 
+    path('admin/people/<int:pk>/', AnyProfileView.as_view(),
+    	name='dashboard.admin.anyprofile'),
+
     path('admin/people/', PeopleView.as_view(),
     	name='dashboard.admin.people'),
 
@@ -43,5 +47,5 @@ urlpatterns = [
     path('login/', LoginView.as_view(template_name="login.html")),
     path('register/', RegisterView.as_view(), name='register'),
     path('', DashboardView.as_view(), name='dashboard'),
-    path('profile/', ProfileView.as_view(), name='profile'),
+    path('profile/', OwnProfileView.as_view(), name='profile'),
 ]
