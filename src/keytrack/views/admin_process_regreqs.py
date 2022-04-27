@@ -11,6 +11,8 @@ from django.urls import reverse
 
 from keytrack.models import Person, SelfRegisterRequest, SSHKey
 
+from .admin_mixins import AdminOnlyMixin
+
 import logging
 
 logger = logging.getLogger(__name__)
@@ -52,7 +54,7 @@ class ProcessRegisterForm(ModelForm):
 		model = SelfRegisterRequest
 		fields = '__all__'
 
-class ProcessRegisterView(UpdateView):
+class ProcessRegisterView(AdminOnlyMixin, UpdateView):
 	model = SelfRegisterRequest
 	form_class = ProcessRegisterForm
 	template_name = 'admin/process-regreq_form.html'
@@ -136,7 +138,7 @@ class ProcessRegisterView(UpdateView):
 			return redirect(reverse('dashboard.admin.regreq',
 				args=[self.get_object().pk]))
 
-class RegisterRequestsView(View):
+class RegisterRequestsView(AdminOnlyMixin, View):
 	def get(self, request, *args, **kwargs):
 		cntxt = { 'regreqs': SelfRegisterRequest.objects.all() }
 		

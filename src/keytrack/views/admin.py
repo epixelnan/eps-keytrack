@@ -3,7 +3,9 @@ from django.views.generic.list import ListView
 from keytrack.models import Person
 from keytrack.models import Project
 
-class PeopleView(ListView):
+from .admin_mixins import AdminOnlyMixin
+
+class PeopleView(AdminOnlyMixin, ListView):
 	model = Person
 	template_name = 'admin/generic-list.html'
 	
