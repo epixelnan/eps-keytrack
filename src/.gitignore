@@ -1,6 +1,8 @@
 .env
 env
 keytrack/settings.py
+keytrack/settings_private.py
+keytrack/settings_secret.py
 data
 __pycache__/
 static-collected
