@@ -4,12 +4,16 @@ from django.shortcuts import render
 from keytrack.models import Person
 from keytrack.models import SSHKey
 
+import logging
+
+logger = logging.getLogger(__name__)
+
 def get_person_for_user_id(uid):
 	try:
 		return Person.objects.get(user=uid)
 	except Exception as e:
 		logger.error('could not get Person object for user=' +
-			str(uid) + ': ' + e.message)
+			str(uid) + ': ' + str(e))
 
 	return None
 
