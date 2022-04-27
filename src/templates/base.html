@@ -141,6 +141,16 @@ h2 {
 	margin: 0;
 	font-weight: normal;
 }
+
+#logoutButton {
+	border: none;
+	background: none;
+	text-decoration: underline;
+}
+
+#logoutButton:hover {
+	cursor: pointer;
+}
 /* END dashboard */
 
 /* BEGIN form */
@@ -192,7 +202,10 @@ h2 {
 <div style="display:flex;gap:8px">
 <div style="flex-grow:1;text-align:right">
 	{% if request.user.is_authenticated %}
-		<span>Signed in.</span>
+		<form action="{% url 'logout' %}" method="POST">
+			{% csrf_token %}
+			<input id="logoutButton" type="submit" value="Sign Out" />
+		</form>
 	{% else %}
 		<a href="/register/">Register</a> <a href="/login/" style="margin-left: 1em">Sign In</a>
 	{% endif %}

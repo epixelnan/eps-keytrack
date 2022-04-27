@@ -26,6 +26,7 @@ from .views import OwnProfileView
 from .views import ProcessRegisterView
 from .views import RegisterView
 from .views import RegisterRequestsView
+from .views import SecureLogoutView
 
 urlpatterns = [
     path('admin/regreqs/<int:pk>/', ProcessRegisterView.as_view(),
@@ -45,6 +46,7 @@ urlpatterns = [
 
     path('admin/', admin.site.urls),
     path('login/', LoginView.as_view(template_name="login.html")),
+    path('logout/', SecureLogoutView.as_view(), name='logout'),
     path('register/', RegisterView.as_view(), name='register'),
     path('', DashboardView.as_view(), name='dashboard'),
     path('profile/', OwnProfileView.as_view(), name='profile'),

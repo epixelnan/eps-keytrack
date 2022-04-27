@@ -1,3 +1,5 @@
+from django.conf import settings
+from django.contrib.auth import logout as auth_logout
 from django.contrib.auth.models import User
 from django.shortcuts import redirect
 from django.shortcuts import render
@@ -52,3 +54,10 @@ class RegisterView(CreateView):
 		# TODO let the user know if error occured
 
 		return render(self.request, 'user/register_success.html')
+
+class SecureLogoutView(View):
+	http_method_names = ['post']
+	
+	def post(self, request):
+		auth_logout(request)
+		return redirect(settings.LOGOUT_REDIRECT_URL)
