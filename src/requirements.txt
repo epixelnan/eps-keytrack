@@ -3,3 +3,6 @@ psycopg2
 django-better-admin-arrayfield
 django-redis-sessions
 gunicorn
+
+# For static file serving with gunicorn (adequate for small projects)
+whitenoise
