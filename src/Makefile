@@ -11,6 +11,8 @@ env-files:
 	if [ ! -f env/db.env ]; then \
 		echo "POSTGRES_NAME=postgres" >  env/db.env; \
 		echo "POSTGRES_USER=postgres" >> env/db.env; \
+		echo "POSTGRES_HOST=db"       >> env/db.env; \
+		echo "POSTGRES_PORT=5432"     >> env/db.env; \
 	fi
 	
 	if [ ! -f env/dj.secret.env ]; then \
