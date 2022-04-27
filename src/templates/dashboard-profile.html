@@ -40,9 +40,9 @@
 	
 	<h2>SSH Keys</h2>
 	{% if sshkeys|length == 0 %}
-		<p>You don't own any SSH keys according to Epixel Keytrack.</p>
+		<p>Not owning any SSH keys according to Epixel Keytrack.</p>
 	{% else %}
-		<p>You own the following SSH keys:</p>
+		<p>SSH keys owned:</p>
 		<ol>
 		{% for key in sshkeys %}
 			<li>{% if key.is_active %}[Active]{% else %}[Inactive]{% endif %} {{key.pubkey}}</li>
@@ -59,7 +59,7 @@
 			{% endfor %}
 			</ol>
 		{% else %}
-			<p>You don't have any {{lst.item_name_plural}}.</p>
+			<p>No {{lst.item_name_plural}}.</p>
 		{% endif %}
 	{% endfor %}
 {% endblock %}
