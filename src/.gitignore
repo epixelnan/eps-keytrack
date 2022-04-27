@@ -3,3 +3,4 @@ env
 keytrack/settings.py
 data
 __pycache__/
+static-collected
