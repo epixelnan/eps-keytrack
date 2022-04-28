@@ -20,9 +20,10 @@ Deploy
   sudo docker-compose up -d --build
   docker exec -it keytrack-web-con python manage.py check --deploy
 
-Now set the superuser password for the Django admin app:
+Now create the superuser:
 
   docker exec -it keytrack-web-con python manage.py createsuperuser
+  docker exec -it keytrack-web-con python manage.py mksuperson
 
 Make sure to read:
 https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
