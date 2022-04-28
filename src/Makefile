@@ -1,16 +1,11 @@
-PASSGEN=$$(uuid|sha512sum|cut -f 1 -d ' ')
+PASSGEN=$$(head -c 64 /dev/urandom|base64)
 env-files:
 	if [ ! -f .env ]; then echo "REDIS_PASSWORD=$(PASSGEN)" > .env; fi
 	
 	mkdir -p env
 	
 	if [ ! -f env/db.secret.env ]; then \
-		# Something wrong with long passwords? Or something else? \
-		# I get the following: \
-		# django.db.utils.OperationalError: FATAL:\
-		#   password authentication failed for user "postgres" \
-		#echo "POSTGRES_PASSWORD=$(PASSGEN)" > env/db.secret.env; \
-		echo "POSTGRES_PASSWORD=$$(uuid)" > env/db.secret.env; \
+		echo "POSTGRES_PASSWORD=$(PASSGEN)" > env/db.secret.env; \
 	fi
 	
 	if [ ! -f env/db.env ]; then \
