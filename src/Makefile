@@ -1,4 +1,4 @@
-PASSGEN=$$(head -c 64 /dev/urandom|base64)
+PASSGEN=$$(head -c 64 /dev/urandom|base64 -w 0)
 env-files:
 	if [ ! -f .env ]; then echo "REDIS_PASSWORD=$(PASSGEN)" > .env; fi
 	
