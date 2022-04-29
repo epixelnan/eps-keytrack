@@ -18,6 +18,7 @@ Deploy
 ======
 
   sudo docker-compose up -d --build
+  docker exec -it keytrack-web-con python manage.py test
   docker exec -it keytrack-web-con python manage.py check --deploy
 
 Now create the superuser:
