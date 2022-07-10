@@ -4,6 +4,10 @@
 # SECURITY: see https://docs.djangoproject.com/en/4.0/topics/security/#host-headers-virtual-hosting
 ALLOWED_HOSTS = ['keytrack.epixel.in']
 
+# To be used in email notifications, etc.
+# If missing, ALLOWED_HOSTS[0] with http (not https) will be taken.
+EPS_SITELINK_PUBLIC = 'https://keytrack.epixel.in'
+
 EPS_EMAIL_ENABLED = False
 EPS_EMAIL_FROM = 'Epixel Keytrack <support@epixelmlmsystem.com>'
 EMAIL_PORT = 587

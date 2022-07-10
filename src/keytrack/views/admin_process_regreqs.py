@@ -17,6 +17,15 @@ import logging
 
 logger = logging.getLogger(__name__)
 
+def get_site_link():
+	try:
+		return settings.EPS_SITELINK_PUBLIC
+	except:
+		try:
+			return 'http://' + settings.ALLOWED_HOSTS[0]
+		except:
+			raise Exception('Neither EPS_SITELINK_PUBLIC nor ALLOWED_HOSTS[0] set')
+
 def email_notif(to, subject, body):
 	if not settings.EPS_EMAIL_ENABLED:
 		logger.warning('not sending email because disabled by EPS_EMAIL_ENABLED: ' + to)
@@ -82,8 +91,10 @@ class ProcessRegisterView(AdminOnlyMixin, UpdateView):
 				'make sure a user does not exist for the same email.')
 			else:
 				subject = 'Account Details'
+				loginurl = get_site_link() + '/login/'
 				body = 'A user account has been created for you on '\
 				'Epixel Keytrack. You can sign in with the following: \r\n\r\n'\
+				'link: ' + loginurl + '\r\n\r\n'\
 				'username: ' + login + '\r\n'\
 				'password: ' + passwd + '\r\n\r\n'\
 				'Thank you.'
