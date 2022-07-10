@@ -41,29 +41,6 @@ class Designation(models.Model):
 	def __str__(self):
 		return self.name
 
-class Host(models.Model):
-	name = models.CharField(max_length=128, null=True, blank=True)
-	ip   = models.CharField(max_length=128, null=True, blank=True)
-	
-	host_types = (
-		('desktop', 'Desktop'),
-		('laptop', 'Laptop'),
-		('other', 'Other'),
-	)
-	
-	type = models.CharField(max_length=32,
-	                             choices=host_types, default='other')
-
-	os_types = (
-		('mswin', 'Windows'),
-		('mac', 'Mac OS'),
-		('linux', 'Linux-based'),
-		('other', 'Other'),
-	)
-
-	os = models.CharField(max_length=32,
-	                             choices=os_types, default='other')
-
 class Person(models.Model):
 	user  = models.OneToOneField(settings.AUTH_USER_MODEL, 
 	                             on_delete=models.CASCADE)
@@ -82,9 +59,6 @@ class Person(models.Model):
 
 	# Keep in sync with the same field from SelfRegisterRequest
 	managers = models.ManyToManyField('self', blank=True)
-	
-	hosts = models.ForeignKey(Host, on_delete=models.PROTECT,
-	              blank=True, null=True)
 	
 	has_vpn_access = models.BooleanField(default=False)
 	
@@ -111,6 +85,32 @@ class Person(models.Model):
 
 	def __str__(self):
 		return self.epsid + '(' + self.name + ')'
+
+class Host(models.Model):
+	owner  = models.ForeignKey(Person, on_delete=models.PROTECT,
+	              blank=False, null=False)
+
+	name = models.CharField(max_length=128, null=True, blank=True)
+	ip   = models.CharField(max_length=128, null=True, blank=True)
+	
+	host_types = (
+		('desktop', 'Desktop'),
+		('laptop', 'Laptop'),
+		('other', 'Other'),
+	)
+	
+	type = models.CharField(max_length=32,
+	                             choices=host_types, default='other')
+
+	os_types = (
+		('mswin', 'Windows'),
+		('mac', 'Mac OS'),
+		('linux', 'Linux-based'),
+		('other', 'Other'),
+	)
+
+	os = models.CharField(max_length=32,
+	                             choices=os_types, default='other')
 
 class SSHKey(models.Model):
 	pubkey = models.CharField(max_length=4096)
