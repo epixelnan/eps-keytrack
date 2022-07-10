@@ -5,3 +5,4 @@ keytrack/settings_secret.py
 data
 __pycache__/
 static-collected
+keytrack/__pycache__/
