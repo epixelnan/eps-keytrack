@@ -37,6 +37,18 @@
 		<div style="grid-column: 2">{% get_field_value object field.name %}</div>
 	{% endfor %}
 	</div>
+
+	<h2>Hosts</h2>
+	{% if hosts|length == 0 %}
+		<p>No office computers according to Epixel Keytrack.</p>
+	{% else %}
+		<p>Hosts owned:</p>
+		<ol>
+		{% for host in hosts %}
+			<li>{{ host.name }} ({{ host.type }}, {{ host.os }}), IP {{ host.ip }}</li>
+		{% endfor %}
+		</ol>
+	{% endif %}
 	
 	<h2>SSH Keys</h2>
 	{% if sshkeys|length == 0 %}

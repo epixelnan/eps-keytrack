@@ -1,6 +1,7 @@
 from django.views.generic.detail import DetailView
 from django.shortcuts import render
 
+from keytrack.models import Host
 from keytrack.models import Person
 from keytrack.models import SSHKey
 
@@ -69,6 +70,7 @@ class AnyProfileViewBase(DetailView):
 		
 		cntxt['lists'] = lists
 
+		cntxt['hosts'] = Host.objects.filter(owner=self.object.id)
 		cntxt['sshkeys'] = SSHKey.objects.filter(owner=self.object.id)
 
 		return self.render_to_response(cntxt)
